@@ -41,8 +41,6 @@ export interface Env {
   SIGN_SECRET?: string;
 }
 
-const DEFAULT_SIGN_SECRET = "8a1317a7468aa3ad86e997d08f3f31cb";
-
 const SUPPORTED_MODELS = [
   { id: "glm5", name: "GLM-5", object: "model", owned_by: "glm-free-api-neo", description: "GLM-5 通用对话模型" },
 ];
@@ -96,7 +94,10 @@ async function generateChatGLMSign(secret: string): Promise<{ timestamp: string;
 }
 
 async function requestGuestRefreshToken(env: Env): Promise<{ refreshToken: string; accessToken: string; userId: string }> {
-  const signSecret = env.SIGN_SECRET || DEFAULT_SIGN_SECRET;
+  const signSecret = env.SIGN_SECRET?.trim();
+  if (!signSecret) {
+    throw new Error("SIGN_SECRET is required");
+  }
   const sign = await generateChatGLMSign(signSecret);
   const response = await fetch("https://chatglm.cn/chatglm/user-api/guest/access", {
     method: "POST",

@@ -13,7 +13,7 @@ const MAX_RETRY_COUNT = 3;
 const RETRY_DELAY = 5000;
 const FILE_MAX_SIZE = 100 * 1024 * 1024;
 
-let signSecret = "8a1317a7468aa3ad86e997d08f3f31cb";
+let signSecret = "";
 
 export function setSignSecret(secret: string) {
   signSecret = secret;
