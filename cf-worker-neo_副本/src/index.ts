@@ -96,7 +96,7 @@ async function generateChatGLMSign(secret: string): Promise<{ timestamp: string;
 async function requestGuestRefreshToken(env: Env): Promise<{ refreshToken: string; accessToken: string; userId: string }> {
   const signSecret = env.SIGN_SECRET?.trim();
   if (!signSecret) {
-    throw new Error("SIGN_SECRET is required");
+    throw new Error("SIGN_SECRET is required. Configure it in your Worker environment variables.");
   }
   const sign = await generateChatGLMSign(signSecret);
   const response = await fetch("https://chatglm.cn/chatglm/user-api/guest/access", {
